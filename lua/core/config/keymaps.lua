@@ -18,7 +18,7 @@ local opts = { noremap = true, silent = true }
 -- ==============================================================================
 
 -- File explorer (netrw)
-keymap("n", "<leader>pv", ":Ex<CR>", { desc = "Open file explorer" })
+keymap("n", "<leader>e", ":Ex<CR>", { desc = "Open file explorer" })
 
 -- Find files (use built-in)
 keymap("n", "<leader>pf", ":find ", { desc = "Find file" })

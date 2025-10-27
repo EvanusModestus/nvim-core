@@ -58,7 +58,7 @@ git clone https://github.com/EvanusModestus/nvim-core.git ~/.config/nvim
 ### Leader Key: `Space`
 
 #### File Navigation
-- `<leader>pv` - Open file explorer
+- `<leader>e` - Open file explorer
 - `<leader>pf` - Find files
 - `<leader>ps` - Grep search
 - `<leader>bb` - Switch buffers

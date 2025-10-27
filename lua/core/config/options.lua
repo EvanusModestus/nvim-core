@@ -33,6 +33,13 @@ opt.laststatus = 2          -- Always show statusline
 opt.termguicolors = true    -- Enable 24-bit RGB colors
 
 -- ==============================================================================
+-- Colorscheme
+-- ==============================================================================
+-- Built-in colorschemes: desert, slate, murphy, pablo, habamax, etc.
+-- Try :colorscheme <Tab> to see all available options
+vim.cmd.colorscheme('desert')
+
+-- ==============================================================================
 -- Indentation and Formatting
 -- ==============================================================================
 opt.tabstop = 4             -- Tab width = 4 spaces
