@@ -17,8 +17,9 @@ local opts = { noremap = true, silent = true }
 -- File Navigation
 -- ==============================================================================
 
--- File explorer (netrw)
-keymap("n", "<leader>e", ":Ex<CR>", { desc = "Open file explorer" })
+-- File explorer (netrw) - Opens as left sidebar
+keymap("n", "<leader>e", ":Lex<CR>", { desc = "Toggle file explorer sidebar" })
+keymap("n", "<leader>E", ":Ex<CR>", { desc = "Open file explorer in current window" })
 
 -- Find files (use built-in)
 keymap("n", "<leader>pf", ":find ", { desc = "Find file" })

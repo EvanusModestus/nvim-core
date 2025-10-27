@@ -182,7 +182,8 @@ nvim-core - Zero-plugin Neovim configuration
 Leader key: Space
 
 File Navigation:
-  <leader>pv   - File explorer
+  <leader>e    - Toggle file explorer (sidebar)
+  <leader>E    - File explorer (current window)
   <leader>pf   - Find file
   <leader>ps   - Grep search
 
@@ -200,8 +201,112 @@ Quick Actions:
   <leader>q    - Quit
   <leader>x    - Make executable
 
-For more: :help nvim-core
+Commands:
+  :NetrwHelp   - netrw keybindings reference
+  :CoreHelp    - This help message
+
+For more: https://github.com/EvanusModestus/nvim-core
     ]])
 end, {
     desc = "Show nvim-core help"
+})
+
+-- Netrw help - Essential keybindings for the file explorer
+command("NetrwHelp", function()
+    local netrw_help = [[
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    netrw File Explorer - Quick Reference                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Opening Files & Directories:
+  <Enter>       Open file/directory under cursor
+  o             Open in horizontal split below
+  v             Open in vertical split to right
+  p             Preview file (cursor stays in netrw)
+  P             Open in previous window
+  t             Open in new tab
+
+Navigation:
+  -             Go up to parent directory
+  u             Go back in directory history
+  U             Go forward in directory history
+  <C-l>         Refresh file listing
+
+File Operations:
+  %             Create new file (type name, press Enter)
+  d             Create new directory
+  R             Rename file/directory under cursor
+  D             Delete file/directory under cursor
+
+Marking Files (for batch operations):
+  mf            Mark file under cursor
+  mt            Mark target directory for move/copy
+  mc            Copy marked files to target directory
+  mm            Move marked files to target directory
+  mx            Execute shell command on marked files
+  mu            Unmark all files
+
+Display & Sorting:
+  i             Cycle view: thin → long → wide → tree
+  I             Toggle banner on/off
+  gh            Toggle hidden files (dotfiles)
+  s             Cycle sort: name → time → size
+  r             Reverse sort order
+
+Bookmarks:
+  mb            Bookmark current directory
+  qb            List all bookmarks
+  gb            Jump to most recent bookmark
+
+Search & Help:
+  /pattern      Search for files matching pattern
+  <F1>          Open full netrw documentation
+
+════════════════════════════════════════════════════════════════════════════════
+
+Current nvim-core Configuration:
+  • Opens as left sidebar with <leader>e (25% width)
+  • Tree view enabled by default
+  • Files open in main window (netrw closes automatically)
+  • Directories sorted first, case-insensitive
+  • Dotfiles hidden by default (press 'gh' to toggle)
+
+Pro Tips:
+  1. Use 'p' to preview files without opening them
+  2. Mark multiple files with 'mf', set target with 'mt', copy with 'mc'
+  3. Press 'I' to toggle banner if you need more screen space
+  4. Use tree view (press 'i' until you see tree structure)
+  5. Navigate with j/k, open with Enter - just like normal vim!
+
+Press 'q' or <Esc> to close this help window.
+    ]]
+
+    -- Create scratch buffer for help
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(netrw_help, "\n"))
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
+
+    -- Calculate centered floating window dimensions
+    local width = math.min(80, vim.o.columns - 4)
+    local height = math.min(45, vim.o.lines - 4)
+    local row = math.floor((vim.o.lines - height) / 2)
+    local col = math.floor((vim.o.columns - width) / 2)
+
+    -- Open floating window
+    local win = vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        row = row,
+        col = col,
+        style = 'minimal',
+        border = 'rounded',
+    })
+
+    -- Close keybindings
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf, silent = true })
+    vim.keymap.set('n', '<Esc>', '<cmd>close<cr>', { buffer = buf, silent = true })
+end, {
+    desc = "Show netrw file explorer help"
 })

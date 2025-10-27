@@ -127,10 +127,34 @@ opt.modeline = false        -- Disable modeline (security risk)
 opt.exrc = false            -- Don't load .exrc, .nvimrc in current directory
 
 -- ==============================================================================
--- Netrw (Built-in File Explorer) Settings
+-- Netrw (Built-in File Explorer) Settings - Optimized Configuration
 -- ==============================================================================
-g.netrw_banner = 0          -- Disable banner
-g.netrw_liststyle = 3       -- Tree view
-g.netrw_browse_split = 4    -- Open in previous window
-g.netrw_altv = 1            -- Split to the right
-g.netrw_winsize = 25        -- 25% width
+
+-- Display and Layout
+g.netrw_banner = 0              -- Hide banner (press I to toggle if needed)
+g.netrw_liststyle = 3           -- Tree view (0=thin, 1=long, 2=wide, 3=tree)
+g.netrw_winsize = 25            -- 25% width for split windows
+
+-- Window Behavior
+g.netrw_browse_split = 0        -- Open files in same window (closes netrw)
+                                -- 0=same, 1=hsplit, 2=vsplit, 3=tab, 4=previous
+
+-- Preview and Navigation
+g.netrw_preview = 1             -- Vertical preview split
+g.netrw_alto = 0                -- Preview splits appear on right (with altv=1)
+g.netrw_altv = 1                -- Vertical split to the right
+
+-- File Operations
+g.netrw_keepdir = 0             -- Keep current directory same as browsing directory
+g.netrw_localcopydircmd = 'cp -r'   -- Enable recursive copy
+
+-- Sort Options
+g.netrw_sort_sequence = [[[\/]$,*]]  -- Directories first, then files
+g.netrw_sort_options = 'i'      -- Case-insensitive sorting
+
+-- Hide dotfiles by default (toggle with 'gh')
+g.netrw_list_hide = [[\(^\|\s\s\)\zs\.\S\+]]
+
+-- Performance
+g.netrw_fastbrowse = 2          -- Medium speed directory caching
+g.netrw_use_errorwindow = 0     -- Don't open error window for simple errors
