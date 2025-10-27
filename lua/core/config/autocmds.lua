@@ -191,6 +191,23 @@ autocmd("TermOpen", {
 })
 
 -- ==============================================================================
+-- Netrw Settings
+-- ==============================================================================
+
+local netrw = augroup("Netrw", { clear = true })
+
+-- Enable line numbers in netrw for easier navigation
+autocmd("FileType", {
+    group = netrw,
+    pattern = "netrw",
+    callback = function()
+        vim.opt_local.number = true
+        vim.opt_local.relativenumber = true
+    end,
+    desc = "Enable line numbers in netrw"
+})
+
+-- ==============================================================================
 -- Quickfix Improvements
 -- ==============================================================================
 
