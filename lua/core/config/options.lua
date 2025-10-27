@@ -136,7 +136,7 @@ g.netrw_liststyle = 3           -- Tree view (0=thin, 1=long, 2=wide, 3=tree)
 g.netrw_winsize = 25            -- 25% width for split windows
 
 -- Window Behavior
-g.netrw_browse_split = 0        -- Open files in same window (closes netrw)
+g.netrw_browse_split = 4        -- Open files in previous window (keeps netrw sidebar open)
                                 -- 0=same, 1=hsplit, 2=vsplit, 3=tab, 4=previous
 
 -- Preview and Navigation

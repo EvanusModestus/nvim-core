@@ -267,7 +267,7 @@ Search & Help:
 Current nvim-core Configuration:
   • Opens as left sidebar with <leader>e (25% width)
   • Tree view enabled by default
-  • Files open in main window (netrw closes automatically)
+  • Files open in main window (sidebar stays open)
   • Directories sorted first, case-insensitive
   • Dotfiles hidden by default (press 'gh' to toggle)
 
