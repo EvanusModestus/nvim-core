@@ -138,11 +138,11 @@ g.netrw_winsize = 25            -- 25% width for split windows
 -- Window Behavior
 g.netrw_browse_split = 4        -- Open files in previous window (keeps netrw sidebar open)
                                 -- 0=same, 1=hsplit, 2=vsplit, 3=tab, 4=previous
+g.netrw_alto = 1                -- Splits appear below
+g.netrw_altv = 1                -- Vertical splits to the right
 
--- Preview and Navigation
-g.netrw_preview = 1             -- Vertical preview split
-g.netrw_alto = 0                -- Preview splits appear on right (with altv=1)
-g.netrw_altv = 1                -- Vertical split to the right
+-- Preview (disabled to prevent window conflicts)
+g.netrw_preview = 0             -- Disable preview mode to avoid extra windows
 
 -- File Operations
 g.netrw_keepdir = 0             -- Keep current directory same as browsing directory
