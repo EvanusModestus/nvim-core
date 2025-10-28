@@ -213,6 +213,12 @@ M.servers = {
     cssls = {
         cmd = { "vscode-css-language-server", "--stdio" },
     },
+
+    -- Markdown
+    marksman = {
+        cmd = { "marksman", "server" },
+        filetypes = { "markdown", "markdown.mdx" },
+    },
 }
 
 -- ==============================================================================
@@ -237,6 +243,7 @@ local filetype_to_server = {
     yaml = "yamlls",
     html = "html",
     css = "cssls",
+    markdown = "marksman",
 }
 
 function M.setup_server(server_name)

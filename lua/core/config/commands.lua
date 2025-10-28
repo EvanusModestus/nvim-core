@@ -287,6 +287,11 @@ JSON (vscode-langservers-extracted):
 YAML (yaml-language-server):
   npm install -g yaml-language-server
 
+Markdown (marksman):
+  # Arch Linux
+  yay -S marksman-bin
+  # Or download from: https://github.com/artempyanykh/marksman/releases
+
 After installing, restart nvim and open a file of that type.
 Run :LspStatus to verify the server is running.
 
