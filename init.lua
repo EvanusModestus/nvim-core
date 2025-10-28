@@ -22,5 +22,8 @@ require('core.config.commands')
 require('core.utils.statusline')
 require('core.utils.clipboard')
 
+-- Load LSP configuration (native Neovim LSP - zero plugins)
+require('core.lsp')
+
 -- Initialization complete
 vim.notify("nvim-core loaded successfully", vim.log.levels.INFO)

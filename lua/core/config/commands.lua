@@ -171,6 +171,143 @@ command("TermV", "vsplit | terminal", {
 })
 
 -- ==============================================================================
+-- LSP Commands
+-- ==============================================================================
+
+-- Show LSP server status
+command("LspStatus", function()
+    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    if #clients == 0 then
+        print([[
+No LSP servers attached to this buffer.
+
+To install language servers:
+  :LspInstall
+
+To see available servers:
+  :LspHelp
+        ]])
+        return
+    end
+
+    print("Active LSP servers for this buffer:")
+    for _, client in ipairs(clients) do
+        print(string.format("  • %s (root: %s)", client.name, client.config.root_dir or "unknown"))
+    end
+end, {
+    desc = "Show active LSP servers"
+})
+
+-- Show LSP installation help
+command("LspInstall", function()
+    print([[
+Language Server Installation Guide
+==================================
+
+nvim-core uses Neovim's native LSP client (zero plugins).
+Language servers must be installed manually on your system.
+
+Common Language Servers:
+------------------------
+
+Python (pyright):
+  npm install -g pyright
+
+Lua (lua-language-server):
+  # Download from: https://github.com/LuaLS/lua-language-server/releases
+  # Or install via package manager
+
+JavaScript/TypeScript (tsserver):
+  npm install -g typescript typescript-language-server
+
+Bash (bash-language-server):
+  npm install -g bash-language-server
+
+C/C++ (clangd):
+  sudo apt install clangd   # Debian/Ubuntu
+  sudo dnf install clang-tools-extra   # Fedora
+
+Rust (rust-analyzer):
+  rustup component add rust-analyzer
+
+Go (gopls):
+  go install golang.org/x/tools/gopls@latest
+
+JSON (vscode-langservers-extracted):
+  npm install -g vscode-langservers-extracted
+
+YAML (yaml-language-server):
+  npm install -g yaml-language-server
+
+After installing, restart nvim and open a file of that type.
+Run :LspStatus to verify the server is running.
+
+For more info: :LspHelp
+    ]])
+end, {
+    desc = "Show language server installation instructions"
+})
+
+-- Show LSP keybindings help
+command("LspHelp", function()
+    print([[
+Native LSP - Keybindings & Features
+===================================
+
+LSP provides:
+  • Diagnostics (errors, warnings)
+  • Code completion
+  • Go to definition
+  • Find references
+  • Code actions (refactoring, fixes)
+  • Symbol renaming
+  • Hover documentation
+
+Keybindings (when LSP is active):
+---------------------------------
+
+Navigation:
+  gd           Go to definition
+  gD           Go to declaration
+  gi           Go to implementation
+  gr           Find references
+  gt           Go to type definition
+
+Information:
+  K            Hover documentation
+  <leader>k    Signature help
+
+Diagnostics:
+  [d           Previous diagnostic
+  ]d           Next diagnostic
+  <leader>e    Show diagnostic (NOTE: conflicts with file explorer)
+  <leader>dl   Diagnostics to location list
+
+Code Actions:
+  <leader>ca   Code action
+  <leader>rn   Rename symbol
+  <leader>f    Format document
+
+Workspace:
+  <leader>wa   Add workspace folder
+  <leader>wr   Remove workspace folder
+  <leader>wl   List workspace folders
+
+Commands:
+  :LspStatus   Show active LSP servers
+  :LspInstall  Installation instructions
+  :LspHelp     This help message
+
+Note: <leader>e conflicts with file explorer.
+      Consider using <leader>E for file explorer when LSP is active.
+
+For installation: :LspInstall
+    ]])
+end, {
+    desc = "Show LSP help and keybindings"
+})
+
+-- ==============================================================================
 -- Help
 -- ==============================================================================
 
@@ -201,9 +338,19 @@ Quick Actions:
   <leader>q    - Quit
   <leader>x    - Make executable
 
+LSP (if language servers installed):
+  gd           - Go to definition
+  K            - Hover documentation
+  <leader>ca   - Code actions
+  :LspHelp     - LSP keybindings
+  :LspInstall  - Installation guide
+
 Commands:
-  :NetrwHelp   - netrw keybindings reference
-  :CoreHelp    - This help message
+  :NetrwHelp       - netrw keybindings reference
+  :LspStatus       - Show active LSP servers
+  :LspHelp         - LSP help and keybindings
+  :LspInstall      - Language server installation
+  :CoreHelp        - This help message
 
 For more: https://github.com/EvanusModestus/nvim-core
     ]])

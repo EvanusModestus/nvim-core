@@ -39,12 +39,14 @@ git clone https://github.com/EvanusModestus/nvim-core.git ~/.config/nvim
 | **File Explorer** | Enhanced netrw (built-in) |
 | **Fuzzy Finding** | Native wildmenu with path |
 | **Grep Search** | Integrated ripgrep/grep |
-| **Clipboard** | Cross-platform system clipboard |
+| **Clipboard** | Cross-platform system clipboard + OSC 52 (SSH) |
 | **Terminal** | Built-in terminal integration |
 | **Statusline** | Custom statusline with git branch |
-| **LSP Support** | Native Neovim LSP client (optional) |
+| **LSP Support** | Native Neovim LSP client with auto-detection |
+| **Diagnostics** | Real-time error/warning highlighting |
+| **Code Actions** | Refactoring, quick fixes, formatting |
 | **Quickfix** | Enhanced quickfix navigation |
-| **Autocomplete** | Native completion menu |
+| **Autocomplete** | Native completion menu with LSP |
 
 ### Cross-Platform Support
 
@@ -90,6 +92,16 @@ git clone https://github.com/EvanusModestus/nvim-core.git ~/.config/nvim
 
 **Full keymap reference**: `:CoreHelp`
 
+#### LSP (when language servers installed)
+- `gd` - Go to definition
+- `K` - Hover documentation
+- `[d` / `]d` - Previous/next diagnostic
+- `<leader>ca` - Code actions
+- `<leader>rn` - Rename symbol
+- `<leader>f` - Format document
+
+**LSP help**: `:LspHelp` | **Installation**: `:LspInstall` | **Status**: `:LspStatus`
+
 ## 🔧 Requirements
 
 ### Required
@@ -123,6 +135,43 @@ brew install ripgrep
 choco install ripgrep
 ```
 
+### LSP (Language Server Protocol) - Optional
+
+nvim-core includes **native LSP support** (zero plugins, uses Neovim's built-in LSP client).
+
+**Features when language servers are installed:**
+- Real-time diagnostics (errors, warnings)
+- Code completion
+- Go to definition / Find references
+- Hover documentation
+- Code actions and refactoring
+- Symbol renaming
+- Document formatting
+
+**Installation:**
+
+Run `:LspInstall` in nvim to see installation instructions for common languages.
+
+**Quick setup for popular languages:**
+
+```bash
+# Python
+npm install -g pyright
+
+# JavaScript/TypeScript
+npm install -g typescript typescript-language-server
+
+# Bash
+npm install -g bash-language-server
+
+# C/C++ (Ubuntu/Debian)
+sudo apt install clangd
+```
+
+After installing language servers, they activate automatically when you open files of that type.
+
+Run `:LspStatus` to verify servers are running.
+
 ## 📁 Structure
 
 ```
@@ -141,8 +190,10 @@ nvim-core/
 │       │   ├── macos.lua            # macOS-specific
 │       │   ├── linux.lua            # Linux-specific
 │       │   └── wsl.lua              # WSL-specific
+│       ├── lsp/
+│       │   └── init.lua             # Native LSP configuration
 │       └── utils/
-│           ├── clipboard.lua        # Clipboard helpers
+│           ├── clipboard.lua        # Clipboard helpers (OSC 52)
 │           └── statusline.lua       # Simple statusline
 ├── install.sh                        # Linux/macOS/WSL installer
 └── install.ps1                       # Windows installer
@@ -154,11 +205,13 @@ nvim-core/
 |----------------|--------|
 | **Plugins** | ❌ Zero |
 | **External Downloads** | ❌ None (after install) |
-| **Network Access** | ❌ Zero |
-| **Telemetry** | ❌ Zero |
+| **Network Access** | ❌ Zero (core) / ⚠️ Optional (LSP servers) |
+| **Telemetry** | ❌ Zero (telemetry disabled in all LSP configs) |
 | **Remote Code Execution** | ❌ Zero |
 | **Supply Chain Risk** | ✅ Minimal (single repo) |
-| **Audit Complexity** | ✅ Trivial (~500 lines) |
+| **Audit Complexity** | ✅ Simple (~800 lines of Lua) |
+
+**LSP Security Note:** Language servers run as separate processes and may make network requests (e.g., for documentation). All LSP servers in nvim-core have telemetry explicitly disabled. Language servers are optional - nvim-core works fully without them.
 
 **Safe for:**
 - ✅ Production servers

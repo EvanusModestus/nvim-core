@@ -1,0 +1,263 @@
+-- ==============================================================================
+-- Native LSP Configuration (Zero Plugins)
+-- ==============================================================================
+-- Uses Neovim's built-in LSP client - no external plugins required
+-- Language servers must be installed manually on the system
+-- ==============================================================================
+
+local M = {}
+
+-- ==============================================================================
+-- LSP UI Configuration
+-- ==============================================================================
+
+-- Diagnostic signs in gutter
+local signs = {
+    Error = "✗",
+    Warn = "⚠",
+    Hint = "➤",
+    Info = "ℹ",
+}
+
+for type, icon in pairs(signs) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+-- Diagnostic configuration
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = "●",
+        source = "if_many",
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+})
+
+-- Hover and signature help windows
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers.hover,
+    { border = "rounded" }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers.signature_help,
+    { border = "rounded" }
+)
+
+-- ==============================================================================
+-- LSP Keybindings (Buffer-specific)
+-- ==============================================================================
+
+-- These keybindings only activate when LSP is attached to a buffer
+M.on_attach = function(client, bufnr)
+    local opts = { buffer = bufnr, silent = true }
+
+    -- Navigation
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "Find references" }))
+    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, vim.tbl_extend("force", opts, { desc = "Go to type definition" }))
+
+    -- Information
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
+    vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature help" }))
+
+    -- Diagnostics
+    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Show diagnostic" }))
+    vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, vim.tbl_extend("force", opts, { desc = "Diagnostics to loclist" }))
+
+    -- Code Actions
+    vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+    vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, vim.tbl_extend("force", opts, { desc = "Format document" }))
+
+    -- Workspace
+    vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, vim.tbl_extend("force", opts, { desc = "Add workspace folder" }))
+    vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, vim.tbl_extend("force", opts, { desc = "Remove workspace folder" }))
+    vim.keymap.set("n", "<leader>wl", function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, vim.tbl_extend("force", opts, { desc = "List workspace folders" }))
+
+    -- Highlight symbol under cursor
+    if client.server_capabilities.documentHighlightProvider then
+        local group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = false })
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.document_highlight,
+        })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            buffer = bufnr,
+            group = group,
+            callback = vim.lsp.buf.clear_references,
+        })
+    end
+end
+
+-- ==============================================================================
+-- Language Server Configurations
+-- ==============================================================================
+
+-- Common capabilities (enhanced completion)
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+
+-- List of language servers to auto-setup
+-- Only servers that are installed on the system will be activated
+M.servers = {
+    -- Python
+    pyright = {},
+
+    -- Lua
+    lua_ls = {
+        settings = {
+            Lua = {
+                runtime = { version = "LuaJIT" },
+                diagnostics = { globals = { "vim" } },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                    checkThirdParty = false,
+                },
+                telemetry = { enable = false },
+            },
+        },
+    },
+
+    -- JavaScript/TypeScript
+    tsserver = {},
+
+    -- Bash
+    bashls = {},
+
+    -- C/C++
+    clangd = {},
+
+    -- Rust
+    rust_analyzer = {
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    command = "clippy",
+                },
+            },
+        },
+    },
+
+    -- Go
+    gopls = {},
+
+    -- JSON
+    jsonls = {},
+
+    -- YAML
+    yamlls = {},
+
+    -- HTML/CSS
+    html = {},
+    cssls = {},
+}
+
+-- ==============================================================================
+-- Setup Individual Language Server
+-- ==============================================================================
+
+-- Mapping of filetypes to language servers
+local filetype_to_server = {
+    python = "pyright",
+    lua = "lua_ls",
+    javascript = "tsserver",
+    typescript = "tsserver",
+    javascriptreact = "tsserver",
+    typescriptreact = "tsserver",
+    sh = "bashls",
+    bash = "bashls",
+    c = "clangd",
+    cpp = "clangd",
+    rust = "rust_analyzer",
+    go = "gopls",
+    json = "jsonls",
+    yaml = "yamlls",
+    html = "html",
+    css = "cssls",
+}
+
+function M.setup_server(server_name)
+    local config = M.servers[server_name]
+    if not config then
+        return
+    end
+
+    -- Check if server executable exists
+    local cmd = server_name
+    if vim.fn.executable(cmd) ~= 1 then
+        -- Try with underscores converted to hyphens
+        cmd = server_name:gsub("_", "-")
+        if vim.fn.executable(cmd) ~= 1 then
+            return -- Server not installed, skip silently
+        end
+    end
+
+    -- Find project root directory
+    local root_patterns = {
+        '.git',
+        'package.json',
+        'tsconfig.json',
+        'jsconfig.json',
+        'Cargo.toml',
+        'go.mod',
+        'pyproject.toml',
+        'setup.py',
+        'requirements.txt',
+        'Makefile',
+    }
+
+    local root_dir = vim.fs.dirname(vim.fs.find(root_patterns, { upward = true })[1])
+    if not root_dir then
+        root_dir = vim.fn.getcwd()
+    end
+
+    -- Merge configurations
+    local setup_config = vim.tbl_deep_extend("force", {
+        on_attach = M.on_attach,
+        capabilities = M.capabilities,
+    }, config)
+
+    -- Start the language server
+    vim.lsp.start({
+        name = server_name,
+        cmd = { cmd },
+        root_dir = root_dir,
+        on_attach = setup_config.on_attach,
+        capabilities = setup_config.capabilities,
+        settings = setup_config.settings or {},
+    })
+end
+
+-- ==============================================================================
+-- Auto-start LSP for supported filetypes
+-- ==============================================================================
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = vim.tbl_keys(filetype_to_server),
+    callback = function(args)
+        local server = filetype_to_server[args.match]
+        if server then
+            M.setup_server(server)
+        end
+    end,
+})
+
+return M
