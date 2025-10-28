@@ -211,8 +211,8 @@ autocmd("FileType", {
         -- Frontmatter template
         abbrev([[iabbrev <buffer> frontmatter ---<CR>title: <CR>date: <C-R>=strftime("%Y-%m-%d")<CR><CR>author: <CR>tags: []<CR>---<Esc>4kA]])
 
-        -- Code documentation template
-        abbrev([[iabbrev <buffer> apidoc ## API Documentation<CR><CR>### Endpoint<CR>```<CR>METHOD /path<CR>```<CR><CR>### Parameters<CR><Bar> Name <Bar> Type <Bar> Required <Bar> Description <Bar><CR><Bar>------|------|----------|-------------<Bar><CR><Bar>      <Bar>      <Bar>          <Bar>             <Bar><CR><CR>### Response<CR>```json<CR>{<CR>}<CR>```<CR><CR>### Example<CR>```bash<CR>curl -X METHOD https://api.example.com/path<CR>```]])
+        -- Code documentation template (simplified)
+        abbrev([[iabbrev <buffer> apidoc ## API Documentation<CR><CR>### Endpoint<CR>```<CR>METHOD /path<CR>```<CR><CR>### Parameters<CR>- `name` (type, required): Description<CR><CR>### Response<CR>```json<CR>{<CR>}<CR>```<CR><CR>### Example<CR>```bash<CR>curl -X METHOD https://api.example.com/path<CR>```]])
 
         -- Keyboard shortcuts documentation
         abbrev([[iabbrev <buffer> kbd <kbd></kbd><Left><Left><Left><Left><Left><Left>]])
