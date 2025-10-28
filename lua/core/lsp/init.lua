@@ -115,11 +115,29 @@ end
 -- Common capabilities (enhanced completion)
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
 
+-- Map server names to their actual executable commands
+-- Many language servers have different executable names
+local server_commands = {
+    pyright = "pyright-langserver",
+    lua_ls = "lua-language-server",
+    tsserver = "typescript-language-server",
+    bashls = "bash-language-server",
+    clangd = "clangd",
+    rust_analyzer = "rust-analyzer",
+    gopls = "gopls",
+    jsonls = "vscode-json-language-server",
+    yamlls = "yaml-language-server",
+    html = "vscode-html-language-server",
+    cssls = "vscode-css-language-server",
+}
+
 -- List of language servers to auto-setup
 -- Only servers that are installed on the system will be activated
 M.servers = {
     -- Python
-    pyright = {},
+    pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+    },
 
     -- Lua
     lua_ls = {
@@ -137,16 +155,23 @@ M.servers = {
     },
 
     -- JavaScript/TypeScript
-    tsserver = {},
+    tsserver = {
+        cmd = { "typescript-language-server", "--stdio" },
+    },
 
     -- Bash
-    bashls = {},
+    bashls = {
+        cmd = { "bash-language-server", "start" },
+    },
 
     -- C/C++
-    clangd = {},
+    clangd = {
+        cmd = { "clangd" },
+    },
 
     -- Rust
     rust_analyzer = {
+        cmd = { "rust-analyzer" },
         settings = {
             ["rust-analyzer"] = {
                 checkOnSave = {
@@ -157,17 +182,27 @@ M.servers = {
     },
 
     -- Go
-    gopls = {},
+    gopls = {
+        cmd = { "gopls" },
+    },
 
     -- JSON
-    jsonls = {},
+    jsonls = {
+        cmd = { "vscode-json-language-server", "--stdio" },
+    },
 
     -- YAML
-    yamlls = {},
+    yamlls = {
+        cmd = { "yaml-language-server", "--stdio" },
+    },
 
     -- HTML/CSS
-    html = {},
-    cssls = {},
+    html = {
+        cmd = { "vscode-html-language-server", "--stdio" },
+    },
+    cssls = {
+        cmd = { "vscode-css-language-server", "--stdio" },
+    },
 }
 
 -- ==============================================================================
@@ -200,14 +235,18 @@ function M.setup_server(server_name)
         return
     end
 
+    -- Get command from config or use server_commands mapping
+    local cmd = config.cmd
+    if not cmd then
+        local cmd_name = server_commands[server_name] or server_name
+        cmd = { cmd_name }
+    end
+
     -- Check if server executable exists
-    local cmd = server_name
-    if vim.fn.executable(cmd) ~= 1 then
-        -- Try with underscores converted to hyphens
-        cmd = server_name:gsub("_", "-")
-        if vim.fn.executable(cmd) ~= 1 then
-            return -- Server not installed, skip silently
-        end
+    local executable = cmd[1]
+    if vim.fn.executable(executable) ~= 1 then
+        -- Silently skip if server not installed
+        return
     end
 
     -- Find project root directory
@@ -238,7 +277,7 @@ function M.setup_server(server_name)
     -- Start the language server
     vim.lsp.start({
         name = server_name,
-        cmd = { cmd },
+        cmd = cmd,
         root_dir = root_dir,
         on_attach = setup_config.on_attach,
         capabilities = setup_config.capabilities,
