@@ -111,12 +111,53 @@ autocmd("FileType", {
         abbrev([[iabbrev <buffer> h2 ## ]])
         abbrev([[iabbrev <buffer> h3 ### ]])
         abbrev([[iabbrev <buffer> h4 #### ]])
+        abbrev([[iabbrev <buffer> h5 ##### ]])
+        abbrev([[iabbrev <buffer> h6 ###### ]])
 
-        -- Code blocks
+        -- Code blocks - Programming Languages
         abbrev([[iabbrev <buffer> pycode ```python<CR>```<Esc>O]])
         abbrev([[iabbrev <buffer> jscode ```javascript<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> tscode ```typescript<CR>```<Esc>O]])
         abbrev([[iabbrev <buffer> shcode ```bash<CR>```<Esc>O]])
         abbrev([[iabbrev <buffer> luacode ```lua<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> rustcode ```rust<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> gocode ```go<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> ccode ```c<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> cppcode ```cpp<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> javacode ```java<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> csharpcode ```csharp<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> phpcode ```php<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> rubycode ```ruby<CR>```<Esc>O]])
+
+        -- Code blocks - Data/Config Languages
+        abbrev([[iabbrev <buffer> sqlcode ```sql<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> jsoncode ```json<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> yamlcode ```yaml<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> xmlcode ```xml<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> tomlcode ```toml<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> csvcode ```csv<CR>```<Esc>O]])
+
+        -- Code blocks - Web Languages
+        abbrev([[iabbrev <buffer> htmlcode ```html<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> csscode ```css<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> scsscode ```scss<CR>```<Esc>O]])
+
+        -- Code blocks - Shell/Terminal
+        abbrev([[iabbrev <buffer> shellcode ```shell<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> console ```console<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> powershell ```powershell<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> cmdcode ```cmd<CR>```<Esc>O]])
+
+        -- Code blocks - Other
+        abbrev([[iabbrev <buffer> mdcode ```markdown<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> diffcode ```diff<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> gitcode ```git<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> dockercode ```dockerfile<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> makecode ```makefile<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> vimcode ```vim<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> regexcode ```regex<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> textcode ```text<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> plaincode ```plaintext<CR>```<Esc>O]])
         abbrev([[iabbrev <buffer> code ```<CR>```<Esc>O]])
 
         -- Links and references
@@ -124,11 +165,18 @@ autocmd("FileType", {
         abbrev([[iabbrev <buffer> img ![](https://)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]])
         abbrev([[iabbrev <buffer> ref [][]<Left><Left><Left>]])
 
-        -- Note-taking templates
+        -- Note-taking templates and callouts
         abbrev([[iabbrev <buffer> note > **Note:** ]])
         abbrev([[iabbrev <buffer> warn > **Warning:** ]])
+        abbrev([[iabbrev <buffer> warning > **Warning:** ]])
         abbrev([[iabbrev <buffer> tip > **Tip:** ]])
         abbrev([[iabbrev <buffer> important > **Important:** ]])
+        abbrev([[iabbrev <buffer> info > **Info:** ]])
+        abbrev([[iabbrev <buffer> danger > **Danger:** ]])
+        abbrev([[iabbrev <buffer> error > **Error:** ]])
+        abbrev([[iabbrev <buffer> success > **Success:** ]])
+        abbrev([[iabbrev <buffer> question > **Question:** ]])
+        abbrev([[iabbrev <buffer> quote > ]])
 
         -- Date/time stamps
         abbrev([[iabbrev <buffer> date <C-R>=strftime("%Y-%m-%d")<CR>]])
@@ -147,6 +195,45 @@ autocmd("FileType", {
 
         -- Horizontal rule
         abbrev([[iabbrev <buffer> hr ---]])
+
+        -- Technical writing helpers
+        abbrev([[iabbrev <buffer> TODO <!-- TODO: -->]])
+        abbrev([[iabbrev <buffer> FIXME <!-- FIXME: -->]])
+        abbrev([[iabbrev <buffer> NOTE <!-- NOTE: -->]])
+        abbrev([[iabbrev <buffer> HACK <!-- HACK: -->]])
+        abbrev([[iabbrev <buffer> XXX <!-- XXX: -->]])
+        abbrev([[iabbrev <buffer> BUG <!-- BUG: -->]])
+        abbrev([[iabbrev <buffer> DEPRECATED <!-- DEPRECATED: -->]])
+
+        -- Details/Summary (collapsible sections)
+        abbrev([[iabbrev <buffer> details <details><CR><summary></summary><CR><CR></details><Esc>2kA]])
+
+        -- Frontmatter template
+        abbrev([[iabbrev <buffer> frontmatter ---<CR>title: <CR>date: <C-R>=strftime("%Y-%m-%d")<CR><CR>author: <CR>tags: []<CR>---<Esc>4kA]])
+
+        -- Code documentation template
+        abbrev([[iabbrev <buffer> apidoc ## API Documentation<CR><CR>### Endpoint<CR>```<CR>METHOD /path<CR>```<CR><CR>### Parameters<CR><Bar> Name <Bar> Type <Bar> Required <Bar> Description <Bar><CR><Bar>------|------|----------|-------------<Bar><CR><Bar>      <Bar>      <Bar>          <Bar>             <Bar><CR><CR>### Response<CR>```json<CR>{<CR>}<CR>```<CR><CR>### Example<CR>```bash<CR>curl -X METHOD https://api.example.com/path<CR>```]])
+
+        -- Keyboard shortcuts documentation
+        abbrev([[iabbrev <buffer> kbd <kbd></kbd><Left><Left><Left><Left><Left><Left>]])
+
+        -- Footnote
+        abbrev([[iabbrev <buffer> footnote [^1]<CR><CR>[^1]: ]])
+
+        -- Task list item with priority
+        abbrev([[iabbrev <buffer> priority - [ ] **[P1]** ]])
+
+        -- Code output/result block
+        abbrev([[iabbrev <buffer> output **Output:**<CR>```<CR>```<Esc>O]])
+
+        -- Example block
+        abbrev([[iabbrev <buffer> example **Example:**<CR>```<CR>```<Esc>O]])
+
+        -- Badge/Shield
+        abbrev([[iabbrev <buffer> badge ![](https://img.shields.io/)]])
+
+        -- Table of contents placeholder
+        abbrev([[iabbrev <buffer> toc ## Table of Contents<CR><CR>- []()<CR>- []()<CR>- []()]])
 
         -- Meeting notes template
         abbrev([[iabbrev <buffer> meeting # Meeting Notes<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Attendees:** <CR><CR>## Agenda<CR>- [ ] <CR><CR>## Discussion<CR><CR>## Action Items<CR>- [ ] ]])
