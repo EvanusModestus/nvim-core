@@ -91,8 +91,73 @@ autocmd("FileType", {
         vim.opt_local.wrap = true
         vim.opt_local.spell = true
         vim.opt_local.conceallevel = 2
+
+        -- Note-taking abbreviations
+        local abbrev = vim.cmd
+
+        -- Todo/Checkbox items
+        abbrev([[iabbrev <buffer> todo - [ ] ]])
+        abbrev([[iabbrev <buffer> done - [x] ]])
+        abbrev([[iabbrev <buffer> pending - [~] ]])
+        abbrev([[iabbrev <buffer> cancelled - [-] ]])
+
+        -- Lists
+        abbrev([[iabbrev <buffer> ul - ]])
+        abbrev([[iabbrev <buffer> ol 1. ]])
+        abbrev([[iabbrev <buffer> task - [ ] ]])
+
+        -- Headers (quick access)
+        abbrev([[iabbrev <buffer> h1 # ]])
+        abbrev([[iabbrev <buffer> h2 ## ]])
+        abbrev([[iabbrev <buffer> h3 ### ]])
+        abbrev([[iabbrev <buffer> h4 #### ]])
+
+        -- Code blocks
+        abbrev([[iabbrev <buffer> pycode ```python<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> jscode ```javascript<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> shcode ```bash<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> luacode ```lua<CR>```<Esc>O]])
+        abbrev([[iabbrev <buffer> code ```<CR>```<Esc>O]])
+
+        -- Links and references
+        abbrev([[iabbrev <buffer> link [](https://)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]])
+        abbrev([[iabbrev <buffer> img ![](https://)<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>]])
+        abbrev([[iabbrev <buffer> ref [][]<Left><Left><Left>]])
+
+        -- Note-taking templates
+        abbrev([[iabbrev <buffer> note > **Note:** ]])
+        abbrev([[iabbrev <buffer> warn > **Warning:** ]])
+        abbrev([[iabbrev <buffer> tip > **Tip:** ]])
+        abbrev([[iabbrev <buffer> important > **Important:** ]])
+
+        -- Date/time stamps
+        abbrev([[iabbrev <buffer> date <C-R>=strftime("%Y-%m-%d")<CR>]])
+        abbrev([[iabbrev <buffer> time <C-R>=strftime("%H:%M")<CR>]])
+        abbrev([[iabbrev <buffer> datetime <C-R>=strftime("%Y-%m-%d %H:%M")<CR>]])
+        abbrev([[iabbrev <buffer> timestamp <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>]])
+
+        -- Common formatting
+        abbrev([[iabbrev <buffer> bold ****<Left><Left>]])
+        abbrev([[iabbrev <buffer> italic **<Left>]])
+        abbrev([[iabbrev <buffer> strike ~~~~<Left><Left>]])
+        abbrev([[iabbrev <buffer> inline `<BS>]])
+
+        -- Table template
+        abbrev([[iabbrev <buffer> table \| Header 1 \| Header 2 \|<CR>\|----------|----------|<CR>\| Cell 1   \| Cell 2   \|]])
+
+        -- Horizontal rule
+        abbrev([[iabbrev <buffer> hr ---]])
+
+        -- Meeting notes template
+        abbrev([[iabbrev <buffer> meeting # Meeting Notes<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Attendees:** <CR><CR>## Agenda<CR>- [ ] <CR><CR>## Discussion<CR><CR>## Action Items<CR>- [ ] ]])
+
+        -- Daily notes template
+        abbrev([[iabbrev <buffer> daily # Daily Notes - <C-R>=strftime("%Y-%m-%d")<CR><CR><CR>## Tasks<CR>- [ ] <CR><CR>## Notes<CR><CR>## Tomorrow<CR>- [ ] ]])
+
+        -- Project notes template
+        abbrev([[iabbrev <buffer> project # Project: <CR><CR>## Overview<CR><CR>## Goals<CR>- [ ] <CR><CR>## Timeline<CR><CR>## Resources<CR>]])
     end,
-    desc = "Markdown settings"
+    desc = "Markdown settings and abbreviations"
 })
 
 -- Git commit messages
