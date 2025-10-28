@@ -176,7 +176,7 @@ command("TermV", "vsplit | terminal", {
 
 -- Show LSP server status
 command("LspStatus", function()
-    local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    local clients = vim.lsp.get_clients({ bufnr = 0 })
     if #clients == 0 then
         print([[
 No LSP servers attached to this buffer.
