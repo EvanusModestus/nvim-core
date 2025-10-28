@@ -142,8 +142,8 @@ autocmd("FileType", {
         abbrev([[iabbrev <buffer> strike ~~~~<Left><Left>]])
         abbrev([[iabbrev <buffer> inline `<BS>]])
 
-        -- Table template
-        abbrev([[iabbrev <buffer> table \| Header 1 \| Header 2 \|<CR>\|----------|----------|<CR>\| Cell 1   \| Cell 2   \|]])
+        -- Table template (simplified to avoid pipe escaping issues)
+        abbrev([[iabbrev <buffer> table <Bar> Header 1 <Bar> Header 2 <Bar>]])
 
         -- Horizontal rule
         abbrev([[iabbrev <buffer> hr ---]])
@@ -156,6 +156,98 @@ autocmd("FileType", {
 
         -- Project notes template
         abbrev([[iabbrev <buffer> project # Project: <CR><CR>## Overview<CR><CR>## Goals<CR>- [ ] <CR><CR>## Timeline<CR><CR>## Resources<CR>]])
+
+        -- Auto-continuation for lists and checkboxes (like Microsoft Word)
+        -- When you press Enter after a bullet/checkbox, it creates another one
+        vim.keymap.set("i", "<CR>", function()
+            local line = vim.api.nvim_get_current_line()
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+            -- Check for checkbox patterns: - [ ], - [x], - [~], - [-]
+            local checkbox_pattern = "^(%s*)%- %[.%] (.*)$"
+            local checkbox_empty = "^(%s*)%- %[.%]%s*$"
+            local indent, content = line:match(checkbox_pattern)
+
+            if indent and content then
+                -- Line has content, create new checkbox
+                local checkbox_type = line:match("^%s*%- %[(.-)%]")
+                -- Always create unchecked checkbox for continuation
+                return "<CR>" .. indent .. "- [ ] "
+            elseif line:match(checkbox_empty) then
+                -- Empty checkbox line, remove it and do normal Enter
+                vim.api.nvim_set_current_line("")
+                return "<CR>"
+            end
+
+            -- Check for bullet list: -
+            local bullet_pattern = "^(%s*)%- (.+)$"
+            local bullet_empty = "^(%s*)%- %s*$"
+            indent, content = line:match(bullet_pattern)
+
+            if indent and content then
+                -- Line has content, create new bullet
+                return "<CR>" .. indent .. "- "
+            elseif line:match(bullet_empty) then
+                -- Empty bullet line, remove it and do normal Enter
+                vim.api.nvim_set_current_line("")
+                return "<CR>"
+            end
+
+            -- Check for numbered list: 1., 2., etc.
+            local number_pattern = "^(%s*)(%d+)%. (.+)$"
+            local number_empty = "^(%s*)(%d+)%. %s*$"
+            local num
+            indent, num, content = line:match(number_pattern)
+
+            if indent and num and content then
+                -- Line has content, create new numbered item
+                local next_num = tonumber(num) + 1
+                return "<CR>" .. indent .. next_num .. ". "
+            elseif line:match(number_empty) then
+                -- Empty numbered line, remove it and do normal Enter
+                vim.api.nvim_set_current_line("")
+                return "<CR>"
+            end
+
+            -- Default: just press Enter normally
+            return "<CR>"
+        end, { buffer = true, expr = true, desc = "Auto-continue lists and checkboxes" })
+
+        -- Tab: Indent list item (add 2 spaces)
+        vim.keymap.set("i", "<Tab>", function()
+            local line = vim.api.nvim_get_current_line()
+
+            -- Check if line is a list item (checkbox, bullet, or numbered)
+            if line:match("^%s*%- %[.%]") or line:match("^%s*%- ") or line:match("^%s*%d+%. ") then
+                -- Add 2 spaces at the beginning
+                vim.api.nvim_set_current_line("  " .. line)
+                -- Move cursor forward by 2
+                local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+                vim.api.nvim_win_set_cursor(0, {row, col + 2})
+                return ""
+            end
+
+            -- Default: insert tab
+            return "<Tab>"
+        end, { buffer = true, expr = true, desc = "Indent list items" })
+
+        -- Shift-Tab: Dedent list item (remove 2 spaces)
+        vim.keymap.set("i", "<S-Tab>", function()
+            local line = vim.api.nvim_get_current_line()
+
+            -- Check if line is a list item with indentation
+            if (line:match("^%s+%- %[.%]") or line:match("^%s+%- ") or line:match("^%s+%d+%. ")) and line:match("^  ") then
+                -- Remove 2 spaces from the beginning
+                vim.api.nvim_set_current_line(line:sub(3))
+                -- Move cursor back by 2
+                local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+                vim.api.nvim_win_set_cursor(0, {row, math.max(0, col - 2)})
+                return ""
+            end
+
+            -- Default: do nothing or you could return <C-d> for normal dedent
+            return ""
+        end, { buffer = true, expr = true, desc = "Dedent list items" })
     end,
     desc = "Markdown settings and abbreviations"
 })
