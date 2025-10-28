@@ -244,6 +244,117 @@ autocmd("FileType", {
         -- Project notes template
         abbrev([[iabbrev <buffer> project # Project: <CR><CR>## Overview<CR><CR>## Goals<CR>- [ ] <CR><CR>## Timeline<CR><CR>## Resources<CR>]])
 
+        -- ==================================================================
+        -- WORKFLOW TEMPLATES - For Daily Life & Professional Use
+        -- ==================================================================
+
+        -- Weekly Review Template
+        abbrev([[iabbrev <buffer> weekly # Weekly Review - Week <C-R>=strftime("%U, %Y")<CR><CR><CR>## Accomplishments<CR>- <CR><CR>## Challenges<CR>- <CR><CR>## Next Week Goals<CR>- [ ] <CR><CR>## Notes<CR>]])
+
+        -- Weekly Planning Template
+        abbrev([[iabbrev <buffer> weekplan # Weekly Plan - <C-R>=strftime("%Y-W%U")<CR><CR><CR>## This Week's Goals<CR>- [ ] <CR><CR>## Monday<CR>- [ ] <CR><CR>## Tuesday<CR>- [ ] <CR><CR>## Wednesday<CR>- [ ] <CR><CR>## Thursday<CR>- [ ] <CR><CR>## Friday<CR>- [ ] <CR><CR>## Weekend<CR>- [ ] ]])
+
+        -- Sprint Planning (Agile)
+        abbrev([[iabbrev <buffer> sprint # Sprint Planning - Sprint <CR><CR>**Duration:** <C-R>=strftime("%Y-%m-%d")<CR> to <CR>**Team:** <CR><CR>## Sprint Goal<CR><CR>## User Stories<CR>- [ ] **[Story]** As a ___ I want ___ so that ___<CR>  - **Acceptance Criteria:**<CR>  - **Estimate:** <CR><CR>## Tasks<CR>- [ ] <CR><CR>## Risks<CR>- ]])
+
+        -- Retrospective Template
+        abbrev([[iabbrev <buffer> retro # Retrospective - <C-R>=strftime("%Y-%m-%d")<CR><CR><CR>## What Went Well 🎉<CR>- <CR><CR>## What Could Be Improved 🔧<CR>- <CR><CR>## Action Items<CR>- [ ] <CR><CR>## Appreciations 💙<CR>- ]])
+
+        -- ==================================================================
+        -- TECHNICAL WRITER TEMPLATES
+        -- ==================================================================
+
+        -- Tutorial Template
+        abbrev([[iabbrev <buffer> tutorial # Tutorial: <CR><CR>## Overview<CR>**Time:** ~X minutes<CR>**Level:** Beginner/Intermediate/Advanced<CR><CR>## Prerequisites<CR>- <CR><CR>## What You'll Learn<CR>- <CR><CR>## Steps<CR><CR>### Step 1: <CR><CR>### Step 2: <CR><CR>## Troubleshooting<CR><CR>## Next Steps<CR>]])
+
+        -- How-To Guide Template
+        abbrev([[iabbrev <buffer> howto # How to: <CR><CR>## Problem<CR><CR>## Solution<CR><CR>## Steps<CR><CR>1. <CR>2. <CR>3. <CR><CR>## Expected Result<CR><CR>## Common Issues<CR>]])
+
+        -- Documentation Page Template
+        abbrev([[iabbrev <buffer> docpage # Documentation: <CR><CR>## Description<CR><CR>## Usage<CR><CR>```<CR>```<CR><CR>## Parameters<CR>- `param1` (type, required): Description<CR><CR>## Examples<CR><CR>### Basic Example<CR>```<CR>```<CR><CR>### Advanced Example<CR>```<CR>```<CR><CR>## Notes<CR>]])
+
+        -- Changelog Entry
+        abbrev([[iabbrev <buffer> changelog ## [Version] - <C-R>=strftime("%Y-%m-%d")<CR><CR><CR>### Added<CR>- <CR><CR>### Changed<CR>- <CR><CR>### Fixed<CR>- <CR><CR>### Removed<CR>- ]])
+
+        -- Release Notes Template
+        abbrev([[iabbrev <buffer> release # Release Notes - v<CR><CR>**Release Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## Highlights<CR>- <CR><CR>## New Features<CR>- <CR><CR>## Improvements<CR>- <CR><CR>## Bug Fixes<CR>- <CR><CR>## Breaking Changes<CR>- <CR><CR>## Upgrade Guide<CR>]])
+
+        -- ==================================================================
+        -- ENGINEER TEMPLATES
+        -- ==================================================================
+
+        -- Bug Report Template
+        abbrev([[iabbrev <buffer> bugreport # Bug Report<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Severity:** Critical/High/Medium/Low<CR><CR>## Description<CR><CR>## Steps to Reproduce<CR>1. <CR>2. <CR>3. <CR><CR>## Expected Behavior<CR><CR>## Actual Behavior<CR><CR>## Environment<CR>- OS: <CR>- Version: <CR>- Browser: <CR><CR>## Logs/Screenshots<CR>```<CR>```<CR><CR>## Possible Solution<CR>]])
+
+        -- Feature Request Template
+        abbrev([[iabbrev <buffer> feature # Feature Request<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Priority:** High/Medium/Low<CR><CR>## Problem Statement<CR>As a ___ I need ___ so that ___<CR><CR>## Proposed Solution<CR><CR>## Alternatives Considered<CR>- <CR><CR>## Acceptance Criteria<CR>- [ ] <CR><CR>## Technical Considerations<CR>- <CR><CR>## Effort Estimate<CR>]])
+
+        -- Architecture Decision Record (ADR)
+        abbrev([[iabbrev <buffer> adr # ADR: <CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Status:** Proposed/Accepted/Deprecated/Superseded<CR><CR>## Context<CR>What is the issue we're facing?<CR><CR>## Decision<CR>What are we doing about it?<CR><CR>## Consequences<CR>What becomes easier or harder?<CR><CR>### Positive<CR>- <CR><CR>### Negative<CR>- <CR><CR>### Risks<CR>- ]])
+
+        -- Code Review Template
+        abbrev([[iabbrev <buffer> codereview # Code Review - <C-R>=strftime("%Y-%m-%d")<CR><CR>**Reviewer:** <CR>**PR/Branch:** <CR><CR>## Summary<CR><CR>## ✅ Strengths<CR>- <CR><CR>## 🔧 Issues Found<CR>- [ ] <CR><CR>## 💡 Suggestions<CR>- <CR><CR>## 🧪 Testing Notes<CR>- [ ] Unit tests pass<CR>- [ ] Manual testing completed<CR>- [ ] Edge cases considered<CR><CR>## Decision<CR>- [ ] Approve<CR>- [ ] Request changes<CR>- [ ] Comment only]])
+
+        -- Technical Design Document
+        abbrev([[iabbrev <buffer> design # Technical Design: <CR><CR>**Author:** <CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## Overview<CR><CR>## Goals<CR>- <CR><CR>## Non-Goals<CR>- <CR><CR>## Design<CR><CR>### Architecture<CR><CR>### Data Models<CR>```<CR>```<CR><CR>### API Design<CR>```<CR>```<CR><CR>## Alternatives Considered<CR><CR>## Security Considerations<CR><CR>## Performance Considerations<CR><CR>## Testing Strategy<CR><CR>## Rollout Plan<CR>1. <CR><CR>## Monitoring & Metrics<CR>]])
+
+        -- Incident Post-Mortem
+        abbrev([[iabbrev <buffer> postmortem # Incident Post-Mortem<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Incident Date:** <CR>**Duration:** <CR>**Severity:** <CR><CR>## Summary<CR><CR>## Timeline<CR>- **HH:MM** - <CR><CR>## Root Cause<CR><CR>## Impact<CR>- Users affected: <CR>- Systems affected: <CR><CR>## Resolution<CR><CR>## Action Items<CR>- [ ] **[P1]** <CR><CR>## Lessons Learned<CR><CR>### What Went Well<CR>- <CR><CR>### What Went Wrong<CR>- <CR><CR>### Where We Got Lucky<CR>- ]])
+
+        -- ==================================================================
+        -- STUDENT TEMPLATES
+        -- ==================================================================
+
+        -- Class Notes Template
+        abbrev([[iabbrev <buffer> classnotes # Class Notes - <C-R>=strftime("%Y-%m-%d")<CR><CR>**Course:** <CR>**Topic:** <CR>**Professor:** <CR><CR>## Key Concepts<CR>- <CR><CR>## Notes<CR><CR>## Examples<CR>```<CR>```<CR><CR>## Questions<CR>- [ ] <CR><CR>## Action Items<CR>- [ ] Read: <CR>- [ ] Practice: <CR>- [ ] Review: ]])
+
+        -- Study Guide Template
+        abbrev([[iabbrev <buffer> studyguide # Study Guide: <CR><CR>**Exam Date:** <CR>**Topics Covered:** <CR><CR>## Key Concepts<CR><CR>### Concept 1<CR>**Definition:** <CR>**Example:** <CR>**Why it matters:** <CR><CR>## Formulas & Equations<CR>```<CR>```<CR><CR>## Practice Problems<CR>1. <CR><CR>## Study Checklist<CR>- [ ] Review lecture notes<CR>- [ ] Complete practice problems<CR>- [ ] Review homework<CR>- [ ] Create flashcards<CR>- [ ] Study group session]])
+
+        -- Research Notes Template
+        abbrev([[iabbrev <buffer> research # Research Notes<CR><CR>**Topic:** <CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## Research Question<CR><CR>## Sources<CR>1. <CR><CR>## Key Findings<CR>- <CR><CR>## Quotes & Citations<CR>> <CR><CR>## My Analysis<CR><CR>## Next Steps<CR>- [ ] ]])
+
+        -- Assignment Template
+        abbrev([[iabbrev <buffer> assignment # Assignment: <CR><CR>**Course:** <CR>**Due Date:** <CR>**Points:** <CR><CR>## Requirements<CR>- [ ] <CR><CR>## Approach<CR><CR>## Notes<CR><CR>## Resources<CR>- <CR><CR>## Checklist Before Submission<CR>- [ ] Requirements met<CR>- [ ] Proofread<CR>- [ ] Citations formatted<CR>- [ ] Files named correctly<CR>- [ ] Submitted on time]])
+
+        -- Reading Notes Template
+        abbrev([[iabbrev <buffer> readingnotes # Reading Notes<CR><CR>**Title:** <CR>**Author:** <CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## Summary<CR><CR>## Key Points<CR>- <CR><CR>## Quotes<CR>> <CR><CR>## My Thoughts<CR><CR>## Questions<CR>- <CR><CR>## Action Items<CR>- [ ] ]])
+
+        -- ==================================================================
+        -- EDUCATOR TEMPLATES
+        -- ==================================================================
+
+        -- Lesson Plan Template
+        abbrev([[iabbrev <buffer> lesson # Lesson Plan<CR><CR>**Course:** <CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Duration:** <CR>**Grade Level:** <CR><CR>## Learning Objectives<CR>Students will be able to:<CR>- <CR><CR>## Materials Needed<CR>- <CR><CR>## Introduction (X min)<CR><CR>## Main Activity (X min)<CR><CR>## Practice/Application (X min)<CR><CR>## Assessment<CR>- <CR><CR>## Homework/Follow-up<CR>- <CR><CR>## Notes/Reflections<CR>]])
+
+        -- Course Syllabus Template
+        abbrev([[iabbrev <buffer> syllabus # Course Syllabus<CR><CR>**Course Title:** <CR>**Instructor:** <CR>**Term:** <CR>**Credits:** <CR><CR>## Course Description<CR><CR>## Learning Outcomes<CR>By the end of this course, students will be able to:<CR>1. <CR><CR>## Required Materials<CR>- <CR><CR>## Grading<CR>- Assignments: X%<CR>- Exams: X%<CR>- Participation: X%<CR>- Final Project: X%<CR><CR>## Schedule<CR><Bar> Week <Bar> Topic <Bar> Assignments <Bar><CR><CR>## Policies<CR><CR>### Attendance<CR><CR>### Late Work<CR><CR>### Academic Integrity<CR>]])
+
+        -- Assessment Rubric Template
+        abbrev([[iabbrev <buffer> rubric # Grading Rubric<CR><CR>**Assignment:** <CR>**Total Points:** <CR><CR><Bar> Criteria <Bar> Exemplary (A) <Bar> Proficient (B) <Bar> Developing (C) <Bar> Beginning (D/F) <Bar><CR><CR>## Comments<CR>]])
+
+        -- Student Feedback Template
+        abbrev([[iabbrev <buffer> feedback # Student Feedback<CR><CR>**Student:** <CR>**Assignment:** <CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## Strengths<CR>- <CR><CR>## Areas for Growth<CR>- <CR><CR>## Specific Feedback<CR><CR>## Next Steps<CR>- [ ] <CR><CR>**Grade:** ]])
+
+        -- ==================================================================
+        -- PRODUCTIVITY & PERSONAL TEMPLATES
+        -- ==================================================================
+
+        -- Ideas/Brainstorm Template
+        abbrev([[iabbrev <buffer> brainstorm # Brainstorm: <CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## Problem/Goal<CR><CR>## Ideas<CR>- 💡 <CR><CR>## Best Ideas<CR>1. <CR><CR>## Next Actions<CR>- [ ] ]])
+
+        -- Problem Solving Template
+        abbrev([[iabbrev <buffer> problem # Problem Solving<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>## The Problem<CR><CR>## Why This Matters<CR><CR>## Possible Solutions<CR>1. <CR>   - Pros: <CR>   - Cons: <CR><CR>## Chosen Solution<CR><CR>## Action Plan<CR>- [ ] <CR><CR>## Results<CR>]])
+
+        -- Decision Log Template
+        abbrev([[iabbrev <buffer> decision # Decision Log<CR><CR>**Date:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Decision:** <CR><CR>## Context<CR><CR>## Options Considered<CR>1. <CR><CR>## Decision Made<CR><CR>## Reasoning<CR><CR>## Expected Outcome<CR><CR>## Review Date<CR>]])
+
+        -- Book Summary Template
+        abbrev([[iabbrev <buffer> booksummary # Book Summary<CR><CR>**Title:** <CR>**Author:** <CR>**Finished:** <C-R>=strftime("%Y-%m-%d")<CR><CR>**Rating:** ⭐⭐⭐⭐⭐<CR><CR>## Summary<CR><CR>## Key Takeaways<CR>1. <CR><CR>## Favorite Quotes<CR>> <CR><CR>## How I'll Apply This<CR>- [ ] <CR><CR>## Related Books<CR>- ]])
+
+        -- Goal Setting Template
+        abbrev([[iabbrev <buffer> goals # Goals - <C-R>=strftime("%Y")<CR><CR><CR>## Long-term Vision (5 years)<CR><CR>## This Year's Goals<CR><CR>### Career<CR>- [ ] <CR><CR>### Learning<CR>- [ ] <CR><CR>### Health<CR>- [ ] <CR><CR>### Personal<CR>- [ ] <CR><CR>## Quarterly Milestones<CR><CR>### Q1<CR>- [ ] <CR><CR>### Q2<CR>- [ ] <CR><CR>### Q3<CR>- [ ] <CR><CR>### Q4<CR>- [ ] ]])
+
         -- Auto-continuation for lists and checkboxes (like Microsoft Word)
         -- When you press Enter after a bullet/checkbox, it creates another one
         vim.keymap.set("i", "<CR>", function()
