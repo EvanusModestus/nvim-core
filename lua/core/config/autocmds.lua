@@ -175,8 +175,8 @@ autocmd("FileType", {
                 return "<CR>" .. indent .. "- [ ] "
             elseif line:match(checkbox_empty) then
                 -- Empty checkbox line, remove it and do normal Enter
-                vim.api.nvim_set_current_line("")
-                return "<CR>"
+                -- Use key sequence: Esc, delete line (dd), open line above (O)
+                return "<Esc>ddO"
             end
 
             -- Check for bullet list: -
@@ -189,8 +189,8 @@ autocmd("FileType", {
                 return "<CR>" .. indent .. "- "
             elseif line:match(bullet_empty) then
                 -- Empty bullet line, remove it and do normal Enter
-                vim.api.nvim_set_current_line("")
-                return "<CR>"
+                -- Use key sequence: Esc, delete line (dd), open line above (O)
+                return "<Esc>ddO"
             end
 
             -- Check for numbered list: 1., 2., etc.
@@ -205,8 +205,8 @@ autocmd("FileType", {
                 return "<CR>" .. indent .. next_num .. ". "
             elseif line:match(number_empty) then
                 -- Empty numbered line, remove it and do normal Enter
-                vim.api.nvim_set_current_line("")
-                return "<CR>"
+                -- Use key sequence: Esc, delete line (dd), open line above (O)
+                return "<Esc>ddO"
             end
 
             -- Default: just press Enter normally
