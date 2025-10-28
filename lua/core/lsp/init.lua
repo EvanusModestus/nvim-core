@@ -24,23 +24,37 @@ for type, icon in pairs(signs) do
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
--- Diagnostic configuration
+-- Diagnostic configuration (Enhanced for maximum clarity)
 vim.diagnostic.config({
     virtual_text = {
         prefix = "●",
         source = "if_many",
+        spacing = 4,  -- Add spacing before virtual text
+        -- Format virtual text to show severity
+        format = function(diagnostic)
+            local severity = vim.diagnostic.severity[diagnostic.severity]
+            return string.format("[%s] %s", severity, diagnostic.message)
+        end,
     },
     signs = true,
     underline = true,
-    update_in_insert = false,
-    severity_sort = true,
+    update_in_insert = false,  -- Don't show diagnostics while typing
+    severity_sort = true,      -- Show errors before warnings
     float = {
-        focusable = false,
+        focusable = true,       -- Allow focusing diagnostic window
         style = "minimal",
         border = "rounded",
-        source = "always",
+        source = "always",      -- Always show diagnostic source
         header = "",
-        prefix = "",
+        prefix = function(diagnostic, i, total)
+            -- Show diagnostic count and severity
+            local severity = vim.diagnostic.severity[diagnostic.severity]
+            return string.format("%d/%d [%s] ", i, total, severity), "DiagnosticSign" .. severity
+        end,
+        suffix = "",
+        format = function(diagnostic)
+            return diagnostic.message
+        end,
     },
 })
 
@@ -105,6 +119,82 @@ M.on_attach = function(client, bufnr)
             group = group,
             callback = vim.lsp.buf.clear_references,
         })
+    end
+
+    -- ==================================================================
+    -- AUTO-FORMAT ON SAVE (if supported)
+    -- ==================================================================
+    if client.server_capabilities.documentFormattingProvider then
+        local group = vim.api.nvim_create_augroup("LSPFormatting", { clear = false })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            group = group,
+            callback = function()
+                vim.lsp.buf.format({
+                    bufnr = bufnr,
+                    timeout_ms = 2000,
+                    filter = function(format_client)
+                        -- Only use this client for formatting
+                        return format_client.name == client.name
+                    end,
+                })
+            end,
+            desc = "Auto-format on save with " .. client.name,
+        })
+    end
+
+    -- ==================================================================
+    -- INLAY HINTS (if supported - Rust, TypeScript, etc.)
+    -- ==================================================================
+    if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+        -- Enable inlay hints by default
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+
+        -- Toggle inlay hints with <leader>ih
+        vim.keymap.set("n", "<leader>ih", function()
+            local current = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+            vim.lsp.inlay_hint.enable(not current, { bufnr = bufnr })
+            vim.notify(
+                "Inlay hints " .. (not current and "enabled" or "disabled"),
+                vim.log.levels.INFO
+            )
+        end, vim.tbl_extend("force", opts, { desc = "Toggle inlay hints" }))
+    end
+
+    -- ==================================================================
+    -- CODELENS (if supported - Go, Rust, etc.)
+    -- ==================================================================
+    if client.server_capabilities.codeLensProvider then
+        local group = vim.api.nvim_create_augroup("LSPCodeLens", { clear = false })
+
+        -- Refresh codelens on buffer enter and save
+        vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "CursorHold" }, {
+            buffer = bufnr,
+            group = group,
+            callback = function()
+                vim.lsp.codelens.refresh({ bufnr = bufnr })
+            end,
+            desc = "Refresh codelens",
+        })
+
+        -- Run codelens with <leader>cl
+        vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run,
+            vim.tbl_extend("force", opts, { desc = "Run codelens" }))
+
+        -- Refresh immediately on attach
+        vim.lsp.codelens.refresh({ bufnr = bufnr })
+    end
+
+    -- ==================================================================
+    -- SEMANTIC TOKENS (Enhanced syntax highlighting)
+    -- ==================================================================
+    if client.server_capabilities.semanticTokensProvider then
+        -- Semantic tokens are automatically enabled, just notify
+        vim.notify(
+            string.format("LSP: %s attached with semantic tokens", client.name),
+            vim.log.levels.INFO,
+            { title = "LSP" }
+        )
     end
 end
 
