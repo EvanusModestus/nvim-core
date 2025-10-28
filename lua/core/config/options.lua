@@ -59,13 +59,32 @@ opt.ignorecase = true       -- Case-insensitive search
 opt.smartcase = true        -- Case-sensitive if search contains uppercase
 
 -- ==============================================================================
--- File Handling
+-- File Handling and Recovery
 -- ==============================================================================
+
+-- Swap Files (ENABLED for SSH crash recovery)
+opt.swapfile = true         -- Enable swap files for crash recovery
+opt.directory = vim.fn.stdpath("data") .. "/swap//"  -- Swap file directory
+opt.updatecount = 50        -- Write to swap after 50 characters (frequent)
+opt.updatetime = 250        -- Write swap file after 250ms of no typing (fast)
+
+-- Create swap directory if it doesn't exist
+vim.fn.mkdir(vim.fn.stdpath("data") .. "/swap", "p")
+
+-- Backup Files (disabled - we rely on swap + undo)
 opt.backup = false          -- No backup files
 opt.writebackup = false     -- No backup while editing
-opt.swapfile = false        -- No swap files
-opt.undofile = true         -- Persistent undo
+
+-- Persistent Undo (ENABLED - undo survives restarts)
+opt.undofile = true         -- Persistent undo across sessions
 opt.undodir = vim.fn.stdpath("data") .. "/undo"  -- Undo directory
+opt.undolevels = 10000      -- Maximum number of changes that can be undone
+opt.undoreload = 10000      -- Maximum lines to save for undo on buffer reload
+
+-- Create undo directory if it doesn't exist
+vim.fn.mkdir(vim.fn.stdpath("data") .. "/undo", "p")
+
+-- File Monitoring
 opt.autoread = true         -- Auto-reload files changed outside vim
 opt.hidden = true           -- Allow hidden buffers with unsaved changes
 

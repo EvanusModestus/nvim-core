@@ -15,6 +15,54 @@ command("W", "w !sudo tee > /dev/null %", {
     desc = "Save file with sudo"
 })
 
+-- Show recovery information
+command("RecoveryInfo", function()
+    print([[
+Swap File Recovery & Undo Configuration
+========================================
+
+Swap Files (Crash Recovery):
+  • Location: ]] .. vim.fn.stdpath("data") .. [[/swap/
+  • Update frequency: Every 50 characters or 250ms
+  • Recover: nvim -r <filename> or choose (R)ecover when opening
+
+Persistent Undo:
+  • Location: ]] .. vim.fn.stdpath("data") .. [[/undo/
+  • Undo levels: 10,000 changes
+  • Survives: Neovim restarts, file closes
+  • Navigate: u (undo), Ctrl+r (redo)
+  • Undo tree: Use :earlier/:later with time (e.g., :earlier 5m)
+
+Auto-Save:
+  • Triggers: When switching buffers or losing focus
+  • Protection: Against SSH disconnections
+  • Manual save: <leader>w or :w
+
+Recovery After Disconnection:
+  1. Reconnect to server
+  2. cd to your working directory
+  3. nvim <your-file>
+  4. Neovim will detect swap file and prompt:
+     • (R)ecover - Restore from swap file
+     • (D)elete - Delete swap file
+     • (Q)uit - Exit without recovering
+  5. Choose (R) to recover your unsaved work
+
+Undo After Restart:
+  • Open file: nvim <filename>
+  • Press 'u' to undo - works even after closing nvim!
+  • Undo history persists across sessions
+
+Tips:
+  • Swap files protect against crashes/disconnections
+  • Undo files protect against mistakes
+  • Both work together for maximum data safety
+  • Auto-save provides additional protection
+    ]])
+end, {
+    desc = "Show swap file and undo recovery information"
+})
+
 -- Delete current file and buffer
 command("Delete", function()
     local file = vim.fn.expand("%:p")
@@ -350,7 +398,14 @@ Commands:
   :LspStatus       - Show active LSP servers
   :LspHelp         - LSP help and keybindings
   :LspInstall      - Language server installation
+  :RecoveryInfo    - Swap file & undo recovery guide
   :CoreHelp        - This help message
+
+Recovery Features:
+  • Swap files enabled (crash recovery after SSH disconnect)
+  • 10,000 level undo/redo (persists across restarts)
+  • Auto-save on buffer switch
+  • Run :RecoveryInfo for details
 
 For more: https://github.com/EvanusModestus/nvim-core
     ]])

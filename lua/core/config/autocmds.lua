@@ -13,6 +13,19 @@ local augroup = vim.api.nvim_create_augroup
 
 local general = augroup("General", { clear = true })
 
+-- Auto-save when losing focus (SSH disconnection protection)
+autocmd({ "FocusLost", "BufLeave" }, {
+    group = general,
+    pattern = "*",
+    callback = function()
+        -- Only save if buffer is modified, has a name, and is writable
+        if vim.bo.modified and vim.fn.expand("%") ~= "" and vim.bo.buftype == "" then
+            vim.cmd("silent! write")
+        end
+    end,
+    desc = "Auto-save on focus lost or buffer leave"
+})
+
 -- Remove trailing whitespace on save
 autocmd("BufWritePre", {
     group = general,
