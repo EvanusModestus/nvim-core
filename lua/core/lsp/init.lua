@@ -137,6 +137,16 @@ M.servers = {
     -- Python
     pyright = {
         cmd = { "pyright-langserver", "--stdio" },
+        settings = {
+            python = {
+                analysis = {
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
+                    diagnosticMode = "workspace",
+                    typeCheckingMode = "basic",
+                },
+            },
+        },
     },
 
     -- Lua
@@ -275,14 +285,22 @@ function M.setup_server(server_name)
     }, config)
 
     -- Start the language server
-    vim.lsp.start({
+    local client_id = vim.lsp.start({
         name = server_name,
         cmd = cmd,
         root_dir = root_dir,
         on_attach = setup_config.on_attach,
         capabilities = setup_config.capabilities,
         settings = setup_config.settings or {},
+        init_options = setup_config.init_options or {},
     })
+
+    -- Verify server started
+    if client_id then
+        vim.notify(string.format("LSP: %s started (root: %s)", server_name, root_dir), vim.log.levels.INFO)
+    else
+        vim.notify(string.format("LSP: Failed to start %s", server_name), vim.log.levels.ERROR)
+    end
 end
 
 -- ==============================================================================
