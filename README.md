@@ -55,6 +55,91 @@ git clone https://github.com/EvanusModestus/nvim-core.git ~/.config/nvim
 ✅ **Linux**: xclip/xsel/wl-clipboard support
 ✅ **WSL**: win32yank clipboard integration
 
+## 📝 Markdown Power User Features
+
+**nvim-core includes 150+ abbreviations and smart list behaviors** - perfect for technical writers, engineers, students, and educators!
+
+### Smart List Behaviors
+
+**Auto-Continuation** (works like Microsoft Word):
+- Type `- [ ]` + text, press Enter → Creates another `- [ ]`
+- Type `1.` + text, press Enter → Auto-increments to `2.`
+- Press Enter on empty list item → Exits list
+- Tab → Indent list item (2 spaces)
+- Shift-Tab → Dedent list item
+
+### Quick Abbreviations (150+)
+
+Type these + space to auto-expand:
+
+**Headers:** `h1` `h2` `h3` `h4` `h5` `h6`
+
+**Todo/Tasks:** `todo` `done` `pending` `cancelled` `priority`
+
+**Callouts:** `note` `tip` `warn` `important` `info` `danger` `success` `error` `question`
+
+**Code Blocks (40+ languages):**
+- Programming: `pycode` `jscode` `tscode` `rustcode` `gocode` `ccode` `cppcode` `javacode`
+- Data: `sqlcode` `jsoncode` `yamlcode` `xmlcode` `tomlcode`
+- Web: `htmlcode` `csscode` `scsscode`
+- Shell: `shcode` `shellcode` `powershell` `console`
+- Other: `dockercode` `gitcode` `diffcode` `vimcode` `mdcode`
+
+**Date/Time (auto-inserts current):** `date` `time` `datetime` `timestamp`
+
+**Formatting:** `bold` `italic` `strike` `inline` `link` `img` `kbd` `footnote`
+
+**Technical:** `TODO` `FIXME` `NOTE` `BUG` `DEPRECATED` `output` `example` `badge`
+
+### Professional Templates (30+)
+
+**Workflow & Productivity:**
+- `weekly` - Weekly review (accomplishments/challenges/goals)
+- `weekplan` - Weekly planning with daily breakdown
+- `sprint` - Agile sprint planning
+- `retro` - Retrospective template
+- `meeting` - Meeting notes with agenda
+- `daily` - Daily notes
+- `project` - Project template
+
+**Technical Writer:**
+- `tutorial` - Complete tutorial template
+- `howto` - How-to guide
+- `docpage` - Documentation page
+- `changelog` - Changelog entry
+- `release` - Release notes
+- `apidoc` - API documentation
+
+**Engineer:**
+- `bugreport` - Bug report (steps/expected/actual)
+- `feature` - Feature request
+- `adr` - Architecture Decision Record
+- `codereview` - Code review template
+- `design` - Technical design document
+- `postmortem` - Incident post-mortem
+
+**Student:**
+- `classnotes` - Class notes
+- `studyguide` - Study guide
+- `research` - Research notes
+- `assignment` - Assignment tracker
+- `readingnotes` - Reading notes
+
+**Educator:**
+- `lesson` - Lesson plan
+- `syllabus` - Course syllabus
+- `rubric` - Grading rubric
+- `feedback` - Student feedback
+
+**Personal:**
+- `brainstorm` - Brainstorming session
+- `problem` - Problem-solving framework
+- `decision` - Decision log
+- `booksummary` - Book summary
+- `goals` - Goal setting (yearly/quarterly)
+
+**Try it:** Open a markdown file, type `meeting` + space, see magic! ✨
+
 ## ⌨️ Keybindings
 
 ### Leader Key: `Space`
