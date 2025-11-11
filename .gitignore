@@ -1,0 +1,39 @@
+# nvim-core .gitignore
+# This is a zero-plugin configuration, so most generated files won't exist
+# But we still exclude potential user-generated content
+
+# Claude Code directory (SECURITY: Never commit to production servers)
+.claude/
+
+# Plugin directory (should never exist in nvim-core, but just in case)
+plugin/
+
+# Session files
+*.session
+Session.vim
+
+# Personal notes
+*.notes
+*NOTES*
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Vim swap files (users may create)
+*.swp
+*.swo
+*~
+
+# Undo files (stored in data directory, but just in case)
+*.un~
+
+# Tags
+tags
+.tags
+
+# IDE files
+.vscode/
+.idea/
+*.iml
